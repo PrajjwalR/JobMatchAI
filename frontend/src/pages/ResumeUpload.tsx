@@ -1,11 +1,47 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import "../index.css"; // Ensure you import the CSS file
+import "../index.css";
+
+// Available free models with updated descriptions
+const FREE_MODELS = [
+  {
+    id: "llama-3.1-8b",
+    name: "Llama 3.1 8B Instruct (Meta)",
+    description: "Fast and efficient",
+  },
+  {
+    id: "mistral-7b",
+    name: "Mistral 7B Instruct",
+    description: "Good balance of speed and quality",
+  },
+  {
+    id: "gemma-2b",
+    name: "Gemma 2B (Google)",
+    description: "Lightweight and fast",
+  },
+  {
+    id: "phi-3-mini",
+    name: "Phi-3 Mini (Microsoft)",
+    description: "Small but capable",
+  },
+  {
+    id: "claude-instant",
+    name: "Claude Instant (Anthropic)",
+    description: "High quality responses",
+  },
+  {
+    id: "llama-2-7b",
+    name: "Llama 2 7B Chat (Meta)",
+    description: "Reliable and well-tested",
+  },
+];
 
 const ResumeUpload = () => {
   const [file, setFile] = useState<File | null>(null);
   const [jobDescription, setJobDescription] = useState("");
+  const [selectedModel, setSelectedModel] = useState("llama-3.1-8b");
   const [isUploading, setIsUploading] = useState(false);
+  const [error, setError] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
@@ -23,32 +59,47 @@ const ResumeUpload = () => {
     }
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!file || !jobDescription) {
-      alert("Please upload a resume and provide a job description");
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!file || !jobDescription.trim()) {
+      alert("Please select a file and enter a job description");
       return;
     }
 
     setIsUploading(true);
+    setError("");
+
     const formData = new FormData();
     formData.append("resume", file);
     formData.append("jobDescription", jobDescription);
+    formData.append("model", selectedModel);
 
     try {
-      const response = await fetch("http://localhost:3001/api/upload-resume", {
+      const response = await fetch("http://localhost:3001/api/upload", {
         method: "POST",
         body: formData,
       });
 
       if (response.ok) {
-        navigate("/matches");
+        const result = await response.json();
+        console.log("Analysis result:", result);
+
+        // Navigate to results page with analysis data AND original content
+        navigate("/matches", {
+          state: {
+            analysis: result.analysis,
+            originalResumeText:
+              result.parsedText || "Resume text not available",
+            originalJobDescription: jobDescription,
+          },
+        });
       } else {
-        throw new Error("Upload failed");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to analyze resume");
       }
     } catch (error) {
-      console.error("Error uploading resume:", error);
-      alert("Failed to upload resume. Please try again.");
+      console.error("Upload error:", error);
+      setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
       setIsUploading(false);
     }
@@ -114,9 +165,46 @@ const ResumeUpload = () => {
           />
         </div>
 
+        <div className="form-group">
+          <label htmlFor="model-select" className="label">
+            AI Model (Free Tier)
+          </label>
+          <select
+            id="model-select"
+            value={selectedModel}
+            onChange={(e) => setSelectedModel(e.target.value)}
+            className="select-input"
+          >
+            {FREE_MODELS.map((model) => (
+              <option key={model.id} value={model.id}>
+                {model.name} - {model.description}
+              </option>
+            ))}
+          </select>
+          {/* <p className="model-hint">
+            Free tier: 20 requests/minute, 50 requests/day
+          </p> */}
+        </div>
+
         <button type="submit" disabled={isUploading} className="submit-button">
-          {isUploading ? "Uploading..." : "Analyze Resume"}
+          {isUploading ? "Analyzing..." : "Analyze Resume"}
         </button>
+
+        {error && (
+          <div
+            style={{
+              color: "#dc2626",
+              background: "#fef2f2",
+              border: "1px solid #fecaca",
+              borderRadius: "0.375rem",
+              padding: "0.75rem",
+              marginTop: "1rem",
+              fontSize: "0.875rem",
+            }}
+          >
+            {error}
+          </div>
+        )}
       </form>
     </div>
   );
