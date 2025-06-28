@@ -4,6 +4,7 @@ import "../index.css";
 const features = [
   {
     title: "Resume Analysis",
+    desc: "Get detailed insights into your resume's strengths and areas for improvement",
     icon: (
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path
@@ -18,6 +19,7 @@ const features = [
   },
   {
     title: "Job Matching",
+    desc: "Find the perfect job match with AI-powered analysis and scoring",
     icon: (
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path
@@ -32,6 +34,7 @@ const features = [
   },
   {
     title: "AI Enhancement",
+    desc: "Enhance your resume with AI suggestions to improve your chances",
     icon: (
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path
