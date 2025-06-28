@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { config } from "../config";
 import "../index.css";
 
 interface Usage {
@@ -94,7 +95,7 @@ const JobMatches = () => {
       });
 
       const response = await fetch(
-        "http://localhost:3001/api/resume-enhancement/enhance",
+        `${config.API_BASE_URL}/api/resume-enhancement/enhance`,
         {
           method: "POST",
           headers: {

@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { config } from "../config";
 import "../index.css";
 
 // Available free models with updated descriptions
@@ -75,7 +76,7 @@ const ResumeUpload = () => {
     formData.append("model", selectedModel);
 
     try {
-      const response = await fetch("http://localhost:3001/api/upload", {
+      const response = await fetch(`${config.API_BASE_URL}/api/upload`, {
         method: "POST",
         body: formData,
       });
