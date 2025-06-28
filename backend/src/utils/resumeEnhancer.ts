@@ -81,7 +81,8 @@ Please respond with a JSON object containing:
   "atsScore": number (0-100, estimated ATS compatibility score)
 }
 
-Ensure the response is valid JSON format only.`;
+Respond ONLY with valid JSON. Do not include any explanation or extra text.
+`;
 
     console.log("Making resume enhancement request with model:", modelString);
 
