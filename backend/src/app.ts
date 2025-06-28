@@ -5,8 +5,7 @@ import uploadRoutes from "./routes/upload";
 import openRouterRoutes from "./routes/openrouter";
 import resumeEnhancementRoutes from "./routes/resumeEnhancement";
 
-// Debug: Check environment variables
-console.log("Environment variables loaded:");
+// console.log("Environment variables loaded:");g
 console.log("OPENROUTER_API_KEY exists:", !!process.env.OPENROUTER_API_KEY);
 console.log(
   "OPENROUTER_API_KEY length:",
