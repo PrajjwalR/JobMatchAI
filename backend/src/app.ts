@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth";
 import uploadRoutes from "./routes/upload";
@@ -29,7 +29,7 @@ app.use("/api/upload", uploadRoutes);
 app.use("/api/openrouter", openRouterRoutes);
 app.use("/api/resume-enhancement", resumeEnhancementRoutes);
 
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
   res.send("JobMatch AI Backend is running!");
 });
 
