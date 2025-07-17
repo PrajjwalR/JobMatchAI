@@ -20,17 +20,10 @@ const openai = new OpenAI({
 
 // Updated free tier models with correct OpenRouter model IDs
 export const FREE_MODELS = {
-  // Meta's Llama 3.1 8B - free tier
-  "llama-3.1-8b": "meta-llama/llama-3.1-8b-instruct:free",
-  // Mistral 7B - free tier
   "mistral-7b": "mistralai/mistral-7b-instruct:free",
-  // Google's Gemma 2B - free tier
   "gemma-2b": "google/gemma-2b-it:free",
-  // Microsoft's Phi-3 Mini - free tier
   "phi-3-mini": "microsoft/phi-3-mini-4k-instruct:free",
-  // Anthropic's Claude Instant - free tier
   "claude-instant": "anthropic/claude-instant-1:free",
-  // Meta's Llama 2 7B - free tier
   "llama-2-7b": "meta-llama/llama-2-7b-chat:free",
 } as const;
 

@@ -40,7 +40,7 @@ const FREE_MODELS = [
 const ResumeUpload = () => {
   const [file, setFile] = useState<File | null>(null);
   const [jobDescription, setJobDescription] = useState("");
-  const [selectedModel, setSelectedModel] = useState("llama-3.1-8b");
+  const [selectedModel, setSelectedModel] = useState("mistral-7b");
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
